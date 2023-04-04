@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Nets Easy Checkout</title>
+    </head>
+    <update handle="checkout_item_price_renderers" />
+    <body>
+
+        <referenceBlock name="minicart" remove="true"/>
+        <referenceContainer name="header.panel" remove="true"/>
+        <referenceBlock name="top.search" remove="true"/>
+        <referenceBlock name="catalog.compare.link" remove="true"/>
+        <referenceBlock name="catalog.topnav" remove="true"/>
+        <referenceContainer name="footer-container" remove="true"/>
+        <referenceBlock name="authentication-popup" remove="true" />
+
+        <referenceBlock name="require.js">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Dibs_EasyCheckout::checkout/uodc/checkout_head.phtml</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template" ifconfig="dibs_easycheckout/layout/replace_shipping_mediastrategi_udc" name="top.udcheader" template="Dibs_EasyCheckout::checkout/head.phtml" />
+        </referenceContainer>
+
+        <referenceBlock name="head.additional">
+            <block class="Dibs\EasyCheckout\Block\Script" name="dibs_easy_checkout_script" template="Dibs_EasyCheckout::js/dibscheckout.phtml"/>
+        </referenceBlock>
+
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="dibs_easy_checkout_head_components" template="Dibs_EasyCheckout::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="page.messages">
+            <block class="Dibs\EasyCheckout\Block\Messages" name="dibs_easy_checkout.messages"/>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Dibs\EasyCheckout\Block\Wrapper" name="dibs_easy_checkout_design_cfg" as="design_cfg" template="Dibs_EasyCheckout::design_config.phtml">
+                <container name="dibs_easy_checkoutHeader" as="dibs_easy_checkoutHeader" label="dibs_easy_checkout Header" htmlTag="div" htmlId="dibs_easy_checkoutHeader">
+                    <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.header" as="dibsHeader" template="Dibs_EasyCheckout::header.phtml" ifconfig="dibs_easycheckout/layout/display_additional_block"/>
+                </container>
+                <!-- SIDEBAR -->
+                <container name="dibs_easy_checkoutSidebar" as="dibs_easy_checkoutSidebar" label="dibs_easy_checkout Sidebar" htmlTag="div" htmlId="dibs_easy_checkoutSidebar">
+                    <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.sidebar" as="sidebar" template="Dibs_EasyCheckout::sidebar.phtml" cacheable="false">
+
+                        <!-- Shopping Cart -->
+                        <block class="Dibs\EasyCheckout\Block\Checkout\Cart" name="dibs_easy_checkout.cart" as="cart" template="Dibs_EasyCheckout::checkout/cart.phtml">
+                            <block class="Magento\Framework\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list">
+                                <block class="Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable" as="configurable"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml">
+                                    <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions"
+                                           name="checkout.cart.item.renderers.configurable.actions" as="actions">
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit"
+                                               name="checkout.cart.item.renderers.configurable.actions.edit"
+                                               template="Magento_Checkout::cart/item/renderer/actions/edit.phtml"/>
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove"
+                                               name="checkout.cart.item.renderers.configurable.actions.remove"
+                                               template="Magento_Checkout::cart/item/renderer/actions/remove.phtml"/>
+                                    </block>
+                                </block>
+                                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml">
+                                    <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions"
+                                           name="checkout.cart.item.renderers.simple.actions" as="actions">
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit"
+                                               name="checkout.cart.item.renderers.simple.actions.edit"
+                                               template="Magento_Checkout::cart/item/renderer/actions/edit.phtml"/>
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove"
+                                               name="checkout.cart.item.renderers.simple.actions.remove"
+                                               template="Magento_Checkout::cart/item/renderer/actions/remove.phtml"/>
+                                    </block>
+                                </block>
+                                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml">
+                                    <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions"
+                                           name="checkout.cart.item.renderers.bundle.actions" as="actions">
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit"
+                                               name="checkout.cart.item.renderers.bundle.actions.edit"
+                                               template="Magento_Checkout::cart/item/renderer/actions/edit.phtml"/>
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove"
+                                               name="checkout.cart.item.renderers.bundle.actions.remove"
+                                               template="Magento_Checkout::cart/item/renderer/actions/remove.phtml"/>
+                                    </block>
+                                </block>
+
+                                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="virtual"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml">
+                                    <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions"
+                                           name="checkout.cart.item.renderers.virtual.actions" as="actions">
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit"
+                                               name="checkout.cart.item.renderers.virtual.actions.edit"
+                                               template="Magento_Checkout::cart/item/renderer/actions/edit.phtml"/>
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove"
+                                               name="checkout.cart.item.renderers.virtual.actions.remove"
+                                               template="Magento_Checkout::cart/item/renderer/actions/remove.phtml"/>
+                                    </block>
+                                </block>
+
+                                <!-- Downloadable renderer-->
+                                <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer"
+                                       name="checkout.cart.item.renderers.downloadable" as="downloadable"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml">
+                                    <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions"
+                                           name="checkout.cart.item.renderers.downloadable.actions" as="actions">
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit"
+                                               name="checkout.cart.item.renderers.downloadable.actions.edit"
+                                               template="Magento_Checkout::cart/item/renderer/actions/edit.phtml"/>
+                                        <block class="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove"
+                                               name="checkout.cart.item.renderers.downloadable.actions.remove"
+                                               template="Magento_Checkout::cart/item/renderer/actions/remove.phtml"/>
+                                    </block>
+                                </block>
+
+                                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="grouped"
+                                       template="Dibs_EasyCheckout::checkout/cart/item/item.phtml"/>
+                            </block>
+                            <block class="Magento\Checkout\Block\Cart\Totals" name="dibs_easy_checkout.cart.totals" as="totals" template="Dibs_EasyCheckout::checkout/cart/totals.phtml"/>
+                        </block>
+
+                        <!-- Apply Discount Code -->
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.coupon" as="coupon" template="Dibs_EasyCheckout::checkout/cart/coupon.phtml"
+                               ifconfig="dibs_easycheckout/layout/display_discount"/>
+
+                        <!-- Shipping Method -->
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.shipping" as="shipping" template="Dibs_EasyCheckout::checkout/shipping.phtml" ifconfig="dibs_easycheckout/layout/display_dibs_shipping_methods">
+                            <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.dibs_shipping_total" as="dibs_shipping_total" template="Dibs_EasyCheckout::checkout/shipping/dibs_shipping_total.phtml"/>
+                            <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.shipping_method" as="shipping_method" template="Dibs_EasyCheckout::checkout/shipping/method.phtml"/>
+                            <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.shipping_address" as="shipping_address" template="Dibs_EasyCheckout::checkout/shipping/address.phtml"/>
+                        </block>
+
+                        <!-- Block with hiden areas to inject dependency-->
+                        <block class="Magento\Checkout\Block\Onepage" name="checkout.root"
+                               template="Magento_Checkout::onepage.phtml"
+                               cacheable="false">
+                            <arguments>
+                                <argument name="jsLayout" xsi:type="array">
+                                    <item name="types" xsi:type="array">
+                                        <item name="form.input" xsi:type="array">
+                                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                <item name="deps" xsi:type="array">
+                                                    <item name="0" xsi:type="string">checkoutProvider</item>
+                                                </item>
+                                                <item name="template" xsi:type="string">ui/form/field</item>
+                                                <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                    <item name="components" xsi:type="array">
+                                        <item name="checkout" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Magento_Checkout/onepage</item>
+                                            </item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="authentication" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                    </item>
+                                                </item>
+
+                                                <item name="steps" xsi:type="array">
+                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                    <item name="displayArea" xsi:type="string">steps_hidden</item>
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="shipping-step" xsi:type="array">
+                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                            <item name="sortOrder" xsi:type="string">1</item>
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="step-config" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="shipping-rates-validation" xsi:type="array">
+                                                                            <item name="children" xsi:type="array">
+                                                                                <!--Step configuration components-->
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="shippingAddress" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="deps" xsi:type="array">
+                                                                            <item name="0" xsi:type="string">checkout.steps.shipping-step.step-config</item>
+                                                                            <item name="1" xsi:type="string">checkoutProvider</item>
+                                                                        </item>
+                                                                    </item>
+                                                                    <item name="component" xsi:type="string">Dibs_EasyCheckout/js/view/shipping</item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                    <item name="sortOrder" xsi:type="string">1</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="price" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_Tax/js/view/checkout/shipping_method/price</item>
+                                                                            <item name="displayArea" xsi:type="string">price</item>
+                                                                        </item>
+                                                                        <item name="before-form" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="displayArea" xsi:type="string">before-form</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <!-- before form fields -->
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="before-shipping-method-form" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="displayArea" xsi:type="string">before-shipping-method-form</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <!-- address-list-additional-addresses -->
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="shipping-address-fieldset" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="deps" xsi:type="array">
+                                                                                    <item name="0" xsi:type="string">checkoutProvider</item>
+                                                                                </item>
+                                                                            </item>
+                                                                            <item name="displayArea" xsi:type="string">additional-fieldsets</item>
+                                                                            <item name="children" xsi:type="array">
+
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="billing-step" xsi:type="array">
+                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                            <item name="sortOrder" xsi:type="string">2</item>
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="payment" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Magento_Checkout/js/view/payment</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="title" xsi:type="string" translate="true">Payment</item>
+                                                                    </item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="renders" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <!-- merge payment method renders here -->
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="additional-payment-validators" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="beforeMethods" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="displayArea" xsi:type="string">beforeMethods</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <!-- merge additional data before payment methods here -->
+                                                                            </item>
+                                                                            <item name="validation" xsi:type="array">
+                                                                                <item name="validate-select" xsi:type="string">true</item>
+                                                                            </item>
+                                                                            <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                                            <item name="filterBy" xsi:type="array">
+                                                                                <item name="target" xsi:type="string">${ $.provider }:${ $.parentScope }.country_id</item>
+                                                                                <item name="field" xsi:type="string">country_id</item>
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="payments-list" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Magento_Checkout/js/view/payment/list</item>
+                                                                            <item name="displayArea" xsi:type="string">payment-methods-list</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="deps" xsi:type="array">
+                                                                                    <item name="0" xsi:type="string">checkout.steps.billing-step.payment.renders</item>
+                                                                                    <item name="1" xsi:type="string">checkout.steps.billing-step.payment.additional-payment-validators</item>
+                                                                                </item>
+                                                                            </item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <item name="before-place-order" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">uiComponent</item>
+                                                                                    <item name="displayArea" xsi:type="string">before-place-order</item>
+                                                                                    <item name="dataScope" xsi:type="string">before-place-order</item>
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="template" xsi:type="string">Magento_Checkout/payment/before-place-order</item>
+                                                                                    </item>
+                                                                                </item>
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="afterMethods" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="displayArea" xsi:type="string">afterMethods</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                                <item name="sidebar" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="summary" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="totals" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                    </item>
+                                                                </item>
+                                                                <item name="itemsBefore" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                        <!-- merge your components here -->
+                                                                    </item>
+                                                                </item>
+                                                                <item name="cart_items" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="details" xsi:type="array">
+                                                                            <item name="children" xsi:type="array">
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="itemsAfter" xsi:type="array">
+                                                                    <item name="children" xsi:type="array">
+                                                                        <!-- merge your components here -->
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="shipping-information" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="checkoutProvider" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                        </item>
+                                    </item>
+                                </argument>
+                            </arguments>
+                        </block>
+
+
+
+                        <!-- Subscribe to Newsletter -->
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.newsletter" as="newsletter" template="Dibs_EasyCheckout::checkout/subscribe.phtml"
+                               ifconfig="dibs_easycheckout/layout/display_newsletter"/>
+                        <!-- Grand Totals -->
+                        <block class="Magento\Checkout\Block\Cart\Totals" name="dibs_easy_checkout.grand_total" as="grand_total" template="Dibs_EasyCheckout::checkout/cart/grand_total.phtml"/>
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.to_payment" as="to_payment" template="Dibs_EasyCheckout::checkout/cart/to_payment.phtml"/>
+                    </block>
+                </container>
+                <!-- CROSSSELL -->
+                <container name="dibs_easy_crosssell" as="dibs_easy_crosssell" label="dibs_easy Crosssell" htmlTag="div" htmlId="dibs_easy_checkoutCrosssell">
+                    <block class="Dibs\EasyCheckout\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" template="Dibs_EasyCheckout::product/list/items.phtml" after="-" ifconfig="checkout/cart/crosssell_enabled">
+                        <arguments>
+                            <argument name="type" xsi:type="string">crosssell</argument>
+                        </arguments>
+                    </block>
+                </container>
+                <!-- IFRAME -->
+                <container name="dibs_easy_checkout.main" as="dibs_easy_checkoutMain" label="Main dibs_easy_checkout Container" htmlTag="div" htmlId="dibs_easy_checkoutMain">
+                    <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.dibs.container" template="Dibs_EasyCheckout::main.phtml">
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.dibs" as="dibs" template="Dibs_EasyCheckout::iframe.phtml" cacheable="false" />
+                        <block class="Dibs\EasyCheckout\Block\Checkout" name="dibs_easy_checkout.different.checkout.link" as="differentCheckoutLink" template="Dibs_EasyCheckout::different_checkout_link.phtml" ifconfig="dibs_easycheckout/layout/display_link"/>
+                    </block>
+                </container>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

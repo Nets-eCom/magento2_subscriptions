@@ -1,0 +1,50 @@
+<!--@subject {{var admin_subject}} - {{var store.getFrontendName()}} @-->
+<!--@vars {
+"var admin_subject":"New order email subject",
+"var cur_order_id":"Current Order ID",
+"var subscription_id":"Subscription ID",
+"var sub_status":"Subscription Status",
+"var customer_name":"Customer Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hi %name," name=$customer_name}}</p>
+            <p>
+                {{trans "Your order %order_id has been updated with a status of <strong>%order_status</strong>."
+                    order_id=$Order_id
+                    order_status=$sub_status
+                |raw}}
+                {{trans 'You can check the status of your order by <a href="%account_url">logging into your account</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
+            </p>
+            <p>
+                {{trans 'If you have questions about your order, you can email us at <a href="mailto:%store_email">%store_email</a>.' store_email=$store_email |raw}}
+            </p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p>{{trans "Subscription has been Paused/Inactive"}}</p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            <table class="message-info">
+                <tr>
+                    <td>
+                        <p><strong>{{trans "Subscription ID:"}}</strong>&nbsp;{{var cur_subscription_id}}</p>
+                    
+                        <p><strong>{{trans "Order ID:"}}</strong>&nbsp;{{var Order_id}}</p>
+                   
+                        <p><strong>{{trans "Subscription status:"}}</strong>&nbsp;{{var sub_status}}</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

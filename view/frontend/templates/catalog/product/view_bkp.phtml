@@ -1,0 +1,83 @@
+<?php
+//$myBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Dibs\EasyCheckout\Block\Catalog\Product\View');
+//echo $myBlock->testSetting();
+
+$product = $block->getCurrentProduct();
+$isEnable = $product->getEnableSubscription();
+$isEnable = $product->getEnableSubscription();
+$isDisplay = $product->getDisplayTimeSlotsToCustomer();
+if($isEnable && $isDisplay){
+if($product->getAddSignupFee() && $product->getSignupFee() > 0){
+echo 'Sign up Fee: ' . $block->getCurrentCurrencyCode() . ' ' . $product->getSignupFee();
+?>
+
+<?php }
+?>
+<div class="nets-subscription-fields" id="nets-subscription-fields">
+	<input type="radio" id="single-order" name="nets-subscription" value="One Time Order">
+  	<label for="One Time Order">One Time Order</label>
+  	<input type="radio" id="subscription-order" name="nets-subscription" value="Subscription Order">
+  	<label for="Subscription Order">Subscription Order</label><br>
+	<div class="subscription-fields" id="subscription-fields" style="display:none;">
+     <labe>Interval: </label>
+		<select name="intervals" id="intervals" required>
+			<option value="">Select interval</option>
+			<option value="1">Daily</option>
+			<option value="2">Weekly</option>
+      <option value="3">Monthly</option>
+			<option value="4">Quarterly</option>
+			<option value="5">6months</option>
+			<option value="6">Yearly</option>
+			<option value="7">Specific date</option>
+		</select>
+		<label id="subscription-date" style="display:none;">Specific date : </label>
+		<input type="text" class="input-text" style="display:none;" id="specific-date" name="specific-date" required />
+		<label>Subscription End Date : </label>
+		<input type="text" class="input-text" id="subscription-end-date" name="subscription-end-date" required />
+	</div>
+</div>
+
+<script>
+  require([
+    'jquery',
+    'mage/translate',
+    'mage/calendar'
+    ], function ($, $t) {
+      $('#subscription-end-date').calendar({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        currentText: $t('Go Today'),
+        closeText: $t('Close'),
+        showWeek: true
+      });
+	  $('#specific-date').calendar({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        currentText: $t('Go Today'),
+        closeText: $t('Close'),
+        showWeek: true
+      });
+	  $('#nets-subscription-fields').click(function() {
+			$("#subscription-fields").hide();
+		if($('#subscription-order').is(':checked')) { 
+			$("#subscription-fields").show();
+		}
+	});
+	$('#intervals').click(function() {
+		var interval = $('#intervals').val();
+		if(7 == interval){
+			$("#subscription-date").show();
+			$("#specific-date").show();
+		} else{
+			$("#subscription-date").hide();
+			$("#specific-date").hide();
+		}
+	});
+
+    })
+</script>
+<?php } ?>
+
+</div>

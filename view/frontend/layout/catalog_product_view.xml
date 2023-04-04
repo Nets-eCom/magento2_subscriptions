@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceBlock name="product.info.form.content">
+			<block class="Dibs\EasyCheckout\Block\Catalog\Product\View" name="catalog.product.view.extrablock"
+			as="extra_options" before="product.info.addtocart" template="Dibs_EasyCheckout::catalog/product/view.phtml"/>
+		</referenceBlock>
+	</body>
+</page>

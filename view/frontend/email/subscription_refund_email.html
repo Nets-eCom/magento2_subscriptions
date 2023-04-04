@@ -1,0 +1,34 @@
+<!--@subject {{var admin_subject}} - {{var store.getFrontendName()}} @-->
+<!--@vars {
+"var admin_subject":"Subscription product refund initiated",
+"var subscription_id":"Current subscription ID"
+} @-->
+
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{var admin_subject}}</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p>{{trans "Customer Order Details:"}}</p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            <table class="message-info">
+                <tr>
+                    <td>
+                        <p><strong>{{trans "subscription ID:"}}</strong>&nbsp;{{var cur_order_id}}</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

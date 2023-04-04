@@ -1,0 +1,32 @@
+<?php 
+/** @var $block \Dibs\EasyCheckout\Block\NetsSubscriptionSummary */
+$netsSubscription = $block->getSubscriptionData();
+if(isset($netsSubscription)) {
+?>
+<strong class="summary title"style="font-size: initial;">Nets Subscription</strong>
+<div class="table-wrapper">
+    <table class="data table">
+      <tbody>
+          <tr>
+              <th>Frequency</th>
+              <td>
+                  <span><?php echo $netsSubscription['interval']; ?></span>
+              </td>
+          </tr>
+          <tr>
+              <th style="border-top: 0px;">Start Date</th>
+              <td style="border-top: 0px;">
+                  <span><?php echo $netsSubscription['startDate']; ?></span>
+              </td>
+          </tr>
+          
+          <tr>
+              <th style="border-top: 0px;">End Date</th>
+              <td style="border-top: 0px;">
+                  <span><?php echo $netsSubscription['endDate']; ?></span>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+<?php } ?>

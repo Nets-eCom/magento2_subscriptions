@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="notification_subscription_general_template" label="Subscription New Order Notification" file="subscription_order_email.html" type="html" module="Dibs_EasyCheckout" area="frontend"/>
+
+    <template id="notification_subscription_cancel_template" label="Subscription Cancel Notification" file="subscription_cancel_email.html" type="html" module="Dibs_EasyCheckout" area="frontend"/>
+
+    <template id="notification_subscription_pause_template" label="Subscription paused (status inactive) Notification" file="subscription_pause_email.html" type="html" module="Dibs_EasyCheckout" area="frontend"/>
+
+    <template id="notification_subscription_refund_template" label="Subscription's charge refunded Notification" file="subscription_refund_email.html" type="html" module="Dibs_EasyCheckout" area="frontend"/>
+</config>

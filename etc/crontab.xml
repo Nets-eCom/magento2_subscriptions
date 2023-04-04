@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+	<group id="default">
+		<job instance="Dibs\EasyCheckout\Cron\Subscription" method="execute" name="Dibs_EasyCheckout_cron">
+			<schedule>* * * * *</schedule>
+		</job>
+		
+	</group>
+	<group id="index">
+		
+		<job instance="Dibs\EasyCheckout\Cron\StatusUpdate" method="execute" name="Dibs_EasyCheckout_cron2">
+			<schedule>* * * * *</schedule>
+		</job>
+	</group>
+</config>

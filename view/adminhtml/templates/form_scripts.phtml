@@ -1,0 +1,18 @@
+<script>
+   require([
+       'jquery',
+       'Dibs_EasyCheckout/js/form',
+       'domReady!'
+	], function ($, form) {
+		$(document).ready(function () {
+			setTimeout(function () {
+				$(document).on('click', 'div[data-index="nets_sub_interval_time"]', function() {
+				console.log('nets_sub_interval_time clicked');
+				form.showHideAttr();
+			});
+			
+            form.showHideAttr();
+			},7000);
+		});
+	});
+</script>

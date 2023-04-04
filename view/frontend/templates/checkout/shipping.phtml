@@ -1,0 +1,25 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->getShippingAddress()): ?>
+<div class="dibs-easy-checkout-shipping dibs-easy-checkout-section mobile-show" id="dibs-easy-checkout-shipping">
+    <div class="dibs-easy-checkout-title" data-role="title">
+        <h4 id="dibs-easy-checkout-review-heading" role="heading" aria-level="2">
+            <?php echo $block->escapeHtml(__('Shipping Method')) ?>
+        </h4>
+        <?php echo $block->getChildHtml('dibs_shipping_total'); ?>
+    </div>
+
+    <div class="dibs-easy-checkout-section-content" data-role="content"
+         aria-labelledby="dibs-easy-checkout-review-heading">
+        <form method="post" id="shipping-method-form"
+              action="<?php echo $block->escapeUrl($block->getShippingMethodSubmitUrl()); ?>"
+              class="form">
+            <?php echo $block->getChildHtml('shipping_method'); ?>
+        </form>
+        <?php if ($addrUrl = $block->getShippingAddressSubmitUrl()): ?>
+            <?php echo $block->getChildHtml('shipping_address'); ?>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

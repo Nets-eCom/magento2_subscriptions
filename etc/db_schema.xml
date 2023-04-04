@@ -1,0 +1,83 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote" resource="default" engine="innodb">
+        <column xsi:type="varchar" name="dibs_payment_id" length="255" nullable="true" comment="dibs_payment_id"/>
+        <column xsi:type="decimal" name="dibs_invoice_fee" default="0.00" nullable="true" comment="Dibs Invoice Fee"/>
+        <column xsi:type="varchar" name="hash_signature" length="255" nullable="true" comment="Quote verification signature hash"/>
+        <column xsi:type="varchar" name="error_message" length="255" nullable="true" comment="Error message"/>
+	<column xsi:type="varchar" name="nets_subscription_interval" length="255" nullable="true" comment="Nets Subscription Interval"/>
+        <column xsi:type="varchar" name="nets_subscription_specific_interval" length="255" nullable="true" comment="Nets Subscription Specific Interval"/>
+        <column xsi:type="date" name="nets_subscription_enddate" nullable="true" comment="Nets Subscription End Date"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_fee" length="50" nullable="true" comment="Nets Subscription Sign Up Fee"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_name" length="255" nullable="true" comment="Nets Subscription Sign Fee Name"/>
+    </table>
+
+    <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="varchar" name="dibs_payment_id" length="255" nullable="true" comment="dibs_payment_id"/>
+        <column xsi:type="decimal" name="dibs_invoice_fee" default="0.00" nullable="true" comment="Dibs Invoice Fee"/>
+        <column xsi:type="varchar" name="nets_subscription_interval" length="255" nullable="true" comment="Nets Subscription Interval"/>
+        <column xsi:type="varchar" name="nets_subscription_specific_interval" length="255" nullable="true" comment="Nets Subscription Specific Interval"/>
+        <column xsi:type="date" name="nets_subscription_enddate" nullable="true" comment="Nets Subscription End Date"/>
+        <column xsi:type="varchar" name="nets_subscription_id" length="255" nullable="true" comment="Nets Subscription Id"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_fee" length="50" nullable="true" comment="Nets Subscription Sign Up Fee"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_name" length="255" nullable="true" comment="Nets Subscription Sign Fee Name"/>
+    </table>
+
+    <table name="quote_address" resource="default" engine="innodb">
+        <column xsi:type="decimal" name="dibs_invoice_fee" default="0.00" nullable="true" comment="Dibs Invoice Fee"/>
+    </table>
+
+    <table name="sales_invoice" resource="default" engine="innodb">
+        <column xsi:type="decimal" name="dibs_invoice_fee" default="0.00" nullable="true" comment="Dibs Invoice Fee"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_fee" length="50" nullable="true" comment="Nets Subscription Sign Up Fee"/>
+    </table>
+
+    <table name="sales_creditmemo" resource="default" engine="innodb">
+        <column xsi:type="decimal" name="dibs_invoice_fee" default="0.00" nullable="true" comment="Dibs Invoice Fee"/>
+        <column xsi:type="varchar" name="nets_subscription_signup_fee" length="50" nullable="true" comment="Nets Subscription Sign Up Fee"/>
+    </table>
+	
+    <table name="nets_subscription_data" resource="default" engine="innodb">
+        <column xsi:type="int" name="id_subscription_data" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="varchar" name="nets_payment_id" length="255" nullable="true" comment="Nets Payment Id" />
+        <column xsi:type="int" name="order_entity_id" unsigned="false" nullable="false" comment="Order Entity Id" />
+        <column xsi:type="varchar" name="order_id" length="255" nullable="true" comment="Order Id" />
+        <column xsi:type="varchar" name="nets_subscriber_name" length="255" nullable="true" comment="Nets Subscription Name"/>
+        <column xsi:type="varchar" name="nets_subscription_id" length="255" nullable="true" comment="Nets Subscription Id"/>
+        <column xsi:type="varchar" name="nets_subscription_interval" length="255" nullable="true" comment="Nets Subscription Interval"/>
+        <column xsi:type="varchar" name="nets_subscription_specific_interval" length="255" nullable="true" comment="Nets Subscription Specific Interval"/>
+        <column xsi:type="date" name="nets_subscription_enddate" nullable="true" comment="Nets Subscription End Date"/>
+        <column xsi:type="decimal" name="nets_order_amount" scale="2" precision="20" nullable="true" comment="Nets Order Amount"/>
+        <column xsi:type="varchar" name="nets_order_currency" length="3" nullable="true" comment="Nets Order Currency Code"/>
+        <column xsi:type="int" name="status" unsigned="false" nullable="false" comment="Status"/>
+        <column xsi:type="int" name="intervalCount" unsigned="false" nullable="false" default = "0" comment="Interval Count" />
+        <column xsi:type="timestamp" name="created_date" default="CURRENT_TIMESTAMP" on_update="false" comment="Request Date"/>
+        <column xsi:type="date" name="chargeDate" nullable="true" comment="Charge Date"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true" comment="Customer ID" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id_subscription_data"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INDEX_NETS_PAYMENT_ID">
+            <column name="nets_payment_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INDEX_NETS_SUBSCRIPTION_ID">
+            <column name="nets_subscription_id"/>
+        </constraint>
+    </table>
+    
+    <table name="nets_subscription_interval_charge" resource="default" engine="innodb">
+        <column xsi:type="int" name="intervalID" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="varchar" name="OrderID" length="255" nullable="true" comment="Order Id" />
+        <column xsi:type="varchar" name="SubscriptinID" length="255" nullable="true" comment="Nets Subscription Id"/>
+        <column xsi:type="varchar" name="PaymentID" length="255" nullable="true" comment="Nets Payment Id"/>
+        <column xsi:type="varchar" name="ChargeID" length="255" nullable="true" comment="Nets Charge Id"/>
+        <column xsi:type="varchar" name="SubStatus" length="255" nullable="true" comment="Nets Subscription Status"/>
+        <column xsi:type="varchar" name="BulkId" length="255" nullable="true" comment="Bulk Id"/>
+        <column xsi:type="varchar" name="ChildOrderId" length="255" nullable="true" comment="Child OrderId Id"/>
+        <column xsi:type="timestamp" name="created_at" default="CURRENT_TIMESTAMP" on_update="false" comment="Request Date"/>
+        <column xsi:type="timestamp" name="updated_at" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated Date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="intervalID"/>
+        </constraint>
+    </table>
+</schema>

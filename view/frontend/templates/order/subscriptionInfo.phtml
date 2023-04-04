@@ -1,0 +1,198 @@
+<?php
+/**
+ * @var Dibs\EasyCheckout\Block\Subscription\SubscriptionInfo $block
+ * */
+?>
+<?php $_subscriptionInfo = $block->getNetsSubscriptionInfo(); ?>
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Nets Subscription Details')) ?></strong>
+    </div>
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <u><span><?= $block->escapeHtml(__('Subscription Information')) ?></span></u>
+            </strong>
+            <div class="box-content">
+                <dd class="content">
+                    <strong>Nets Subscription Id : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["nets_subscription_id"]); ?></span>
+                </dd>
+                <dd class="content">
+                    <strong>Nets Subscription End Date : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["nets_subscription_enddate"]); ?></span>
+                </dd>
+            </div>
+            <hr class="hidden-print">
+            <strong class="box-title hidden-print">
+
+                <div class="tooltip">
+                    <span class="tooltiptext">You can change the subscription status from here.
+                        If you change the status as Cancel then subscription order will be closed permanently.</span>
+                    <div class="admin__page-section-item-title">
+                        <span class="title">
+                            <u><?php echo $block->escapeHtml(__('Subscription Status')); ?></u>
+                            <label style="font-size: 22px">&#x1F6C8; </label>
+                        </span>
+
+                    </div>
+                </div>
+            </strong>
+
+            <?php
+            $subDetails = $block->getSubscriptionCardStatus();
+            if ($subDetails[0]['status'] == '2') {
+                ?>
+                <dd class="content">
+                    <label style="color: red;"><b>Subscription has been closed.</b></label>
+                </dd>
+
+            <?php } ?>
+            
+                <div class="box-content hidden-print">
+                    <form class="blog-form" method="post"  action=<?php // echo $block->getUrl('easycheckout/Order/UpdateSubscription');  ?> data-mage-init='{"validation": {}}'>    
+                        <div class="field Status required">
+                            <input type="hidden" id="orderID" name="orderID" value="<?php echo $subDetails['0']['order_id']; ?>" /> 
+                            <input type="hidden" id="SubscriptionID" name="SubscriptionID" value="<?php echo $subDetails['0']['nets_subscription_id']; ?>" />
+
+                            <div class="control">
+                                <select name="Status" id="status"  title="status"  aria-required="true" <?= ($subDetails[0]['status'] == '2') ? 'disabled' : ''; ?>>
+                                    <option value="1" <?= ($subDetails[0]['status'] == '1') ? 'selected' : ''; ?> > Active  </option>
+                                    <option value="0" <?= ($subDetails[0]['status'] == '0') ? 'selected' : ''; ?> > Pause/Inactive </option>
+                                    <option value="2" <?= ($subDetails[0]['status'] == '2') ? 'selected' : ''; ?> > Cancel   </option>
+                                </select>        
+                            </div>
+                        </div>
+                        </br>
+                        <?php if($subDetails[0]['status'] != '2') { ?>
+                        <div class="actions-toolbar">
+                            <div class="primary">
+                                <button type="submit" title="Save" id="status_btn" class="action submit primary" data-mage-init='' style="width: initial;" <?= ($subDetails[0]['status'] == '2') ? 'disabled' : ''; ?>>
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </form>
+                </div> 
+       
+        </div>
+        <div class="box box-information">
+            <strong class="box-title">
+               <u> <span><?= $block->escapeHtml(__('Card Information')) ?></span></u>
+            </strong>
+            <div class="box-content">
+                <dd class="content">
+                    <strong>Card Number : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["masked_pan"]); ?></span>
+                </dd>
+                <dd class="content">
+                    <strong>Expiry Date : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["expiry_date"]); ?></span>
+                </dd>
+                <dd class="content">
+                    <strong>Payment Type : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["payment_type"]); ?></span>
+                </dd>
+                <dd class="content">
+                    <strong>Payment Method : </strong>
+                    <span class="number"><?php echo $block->escapeHtml($_subscriptionInfo["payment_method"]); ?></span>
+                </dd>
+            </div>
+            <?php if ($subDetails[0]['status'] != '2') { ?>
+            <div class="box-actions">
+                <a class="action edit" id="card_btn" href="#" data-ui-id="nets-subscription-card-edit-link"><span>Change Card</span></a>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/confirm'
+    ],
+            function ($, confirmation) {
+                $('#status_btn').on('click', function (e) {
+                    e.preventDefault();
+                    confirmation({
+                        title: 'Status confirmation',
+                        content: 'Do you want to change subscription status ?',
+                        actions: {
+
+                            confirm: function () {
+                                $.ajax({
+                                    showLoader: true,
+                                    url: '<?php echo $block->getUrl('easycheckout/Order/UpdateSubscription'); ?>',
+                                    data: {
+                                        orderID: $("#orderID").val(),
+                                        SubscriptionID: $("#SubscriptionID").val(),
+                                        Status: $("#status").val(),
+                                    },
+                                    type: "POST",
+                                    success: function (data) {
+                                        console.log(data);
+                                        if (data.status == 'Success') {
+                                            alert(jQuery.mage.__('For subscription id ' + data.SubID + ' status has been updated successfully.'));
+                                            location.reload();
+                                        } else {
+                                            alert(jQuery.mage.__('For subscription id ' + data.SubID + ' status is already active.'));
+                                        }
+
+                                    },
+                                    error: function (error) {
+
+                                    }
+                                });
+                            },
+
+                            cancel: function () {
+                                return false;
+                            }
+                        }
+                    });
+                });
+                $('#card_btn').on('click', function (e) {
+                    e.preventDefault();
+                    confirmation({
+                        title: 'Update Card confirmation',
+                        content: 'Do you want to update card details ?',
+                        actions: {
+                            confirm: function () {
+                                window.location.href = "<?php echo $block->getUrl('easycheckout/Order/UpdateSubscriptionCard'); ?>id/<?php echo $subDetails[0]['order_entity_id']; ?>/subId/<?php echo $subDetails[0]['nets_subscription_id']; ?>";
+                            },
+
+                            cancel: function () {
+                                return false;
+                            }
+                        }
+                    });
+                });
+            });
+</script>
+<style>
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        /* border-bottom: 1px dotted black; */
+    }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 400px;
+        background-color: #465e53;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 10px 20px;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: -78px;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+</style>

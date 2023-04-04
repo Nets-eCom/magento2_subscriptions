@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dibs_easycheckout>
+            <connection>
+                <enabled>0</enabled>
+                <webhook_auth>PleaseChangeMe</webhook_auth>
+                <webhook_timeout>40</webhook_timeout>
+            </connection>
+            <settings>
+                <add_css>0</add_css>
+                <checkout_add_options_to_name>1</checkout_add_options_to_name>
+                <checkout_flow>EmbeddedCheckout</checkout_flow>
+                <processing_order_status>processing</processing_order_status>
+                <!-- <nets_successpage>1</nets_successpage> -->
+            </settings>
+            <layout>
+                <display_newsletter>1</display_newsletter>
+                <display_discount>1</display_discount>
+            </layout>
+            <crosssell>
+                <display_crosssell>1</display_crosssell>
+                <crosssell_limit>8</crosssell_limit>
+            </crosssell>
+        </dibs_easycheckout>
+
+        <payment>
+            <dibseasycheckout>
+                <active>1</active>
+                <model>Dibs\EasyCheckout\Model\Payment\Method\Checkout</model>
+                <order_status>pending_payment</order_status>
+                <title>Nets Easy Checkout</title>
+            </dibseasycheckout>
+        </payment>
+        <notification_subscription>
+            <general>
+                <enabled>0</enabled>
+            </general>
+            <subscription_cancel>
+                <enabled>0</enabled>
+            </subscription_cancel>
+            <subcription_pause>
+                <enabled>0</enabled>
+            </subcription_pause>
+            <subcription_refund>
+                <enabled>0</enabled>
+            </subcription_refund>
+        </notification_subscription>
+    </default>
+</config>

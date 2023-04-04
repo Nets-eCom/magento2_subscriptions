@@ -1,0 +1,20 @@
+<?php
+/**
+ * @var $block \Dibs\EasyCheckout\Block\Payment\Checkout\Info
+ */
+?>
+<div class="order-payment-method-name"><?php echo $block->escapeHtml($block->getMethod()->getTitle()); ?></div>
+<table class="data-table admin__table-secondary">
+    <tr>
+        <th><strong><?php echo $block->escapeHtml(__('Net Easy Payment Status')); ?>:</strong></th>
+        <td><strong><?php echo $block->escapeHtml($block->getInfo()->getAdditionalInformation('dibs_payment_status')); ?></strong></td>
+    </tr>
+    <tr>
+        <th><?php echo $block->escapeHtml(__('Nets Easy Checkout Payment ID')); ?>:</th>
+        <td><?php echo $block->escapeHtml($block->getInfo()->getAdditionalInformation('dibs_payment_id')); ?></td>
+    </tr>
+    <tr>
+        <th><?php echo $block->escapeHtml(__('Net Easy Checkout Payment Method')); ?>:</th>
+        <td><?php echo $block->escapeHtml($block->getInfo()->getAdditionalInformation('dibs_payment_method')); ?></td>
+    </tr>
+</table>

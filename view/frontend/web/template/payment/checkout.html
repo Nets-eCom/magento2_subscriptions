@@ -1,0 +1,93 @@
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <img data-bind="attr: {'src': getLogoUrl(), height : '60', width : '90'}" class="payment-icon" />
+        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
+    </div>
+
+    <div class="payment-method-content">
+            <div class="payment-method-billing-address">
+                <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!--/ko-->
+            </div>
+            <div class="checkout-agreements-block">
+              <!-- ko foreach: $parent.getRegion('before-place-order') -->
+                  <!-- ko template: getTemplate() --><!-- /ko -->
+              <!--/ko-->
+            </div>
+            <!-- ko if: window.isVanillaEmbeded -->
+            <div class="payment-method-note">
+                <div id="nets-placeholder" style="width: 102%;">
+                    <p id="nets-loader" data-bind="css: {'hiden': hideLoader()}">
+                        <a href="https://info.dibs.se/hubfs/spinner_ani.gif">
+                            <img alt="" src="https://info.dibs.se/hubfs/spinner_ani.gif" style="width: 52px; height: 50px;">
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: window.overlayIframe  -->
+            <!-- ko i18n: 'A pop-up for the Nets Easy Checkout will appear.' --><!-- /ko -->
+            <!--/ko-->
+            <!-- ko if: (window.overlayIframe == false && window.isVanillaEmbeded == false)  -->
+            <!-- ko i18n: 'You will be redirected to the Nets easy Checkout page.' --><!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <!-- ko ifnot: window.isVanillaEmbeded -->
+        <div class="actions-toolbar">
+            <div class="primary">
+                <!-- ko if: window.overlayIframe -->
+                <button class="action primary checkout"
+                        type="submit"
+                        data-trigger="trigger"
+                        data-bind="
+                        click: continueToDibs,
+                        attr: {title: $t('Place Order')},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Nets Easy Checkout'"></span>
+                </button>
+                <!--/ko-->
+                <!-- ko ifnot: window.overlayIframe -->
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: continueToDibsRedirect,
+                        attr: {title: $t('Place Order')},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Nets Easy Checkout'"></span>
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: window.overlayIframe -->
+        <div data-bind="mageInit: {
+            'Magento_Ui/js/modal/modal':{
+                'type': 'popup',
+                'title': 'Nets Easy Checkout',
+                'trigger': '.action.primary.checkout[data-trigger=trigger]',
+                'responsive': true,
+                'modalClass': 'nets-popup-wrapper'
+            }}">
+            <div class="content">
+                <iframe id="nets-popup-iframe" src="#" frameborder="0"
+                        data-bind="attr: {src: getNetsUrl()}">
+                </iframe>
+            </div>
+        </div>
+        <!--/ko-->
+    </div>
+</div>
+<style>
+    .hiden {
+        display: none;
+    }
+</style>

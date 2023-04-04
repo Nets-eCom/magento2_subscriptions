@@ -1,0 +1,63 @@
+<?php
+/** @var \Magento\Sales\Block\Order\History $block */
+$_orders = $block->getOrders(); ?>
+<?= $block->getChildHtml('info') ?>
+<?php if ($_orders && count($_orders)) : ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?= $block->escapeHtml(__('Nets Subscription Orders')) ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"><?= $block->escapeHtml(__('Order #')) ?></th>
+                    <?= $block->getChildHtml('extra.column.header') ?>
+                    <th scope="col" class="col subscription id"><?= $block->escapeHtml(__('Subscription Id')) ?></th>                    
+                    <th scope="col" class="col payment id"><?= $block->escapeHtml(__('Payment Id')) ?></th>
+                    <th scope="col" class="col frequency"><?= $block->escapeHtml(__('Frequency')) ?></th>
+                    <th scope="col" class="col expires"><?= $block->escapeHtml(__('Expires After')) ?></th>
+                    <th scope="col" class="col amount"><?= $block->escapeHtml(__('Amount')) ?></th>
+                    <th scope="col" class="col date"><?= $block->escapeHtml(__('Start Date')) ?></th>
+                    <th scope="col" class="col end date"><?= $block->escapeHtml(__('End Date')) ?></th>
+                    <th scope="col" class="col status"><?= $block->escapeHtml(__('Status')) ?></th>
+                    <th scope="col" class="col actions"><?= $block->escapeHtml(__('Action')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_orders as $_order) : ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= $block->escapeHtml($_order->getOrderId()) ?></td>
+                        
+                        <?php $extra = $block->getChildBlock('extra.container'); ?>
+                        <?php if ($extra) : ?>
+                            <?php $extra->setOrder($_order); ?>
+                            <?= $extra->getChildHtml() ?>
+                        <?php endif; ?>
+                        <td data-th="<?= $block->escapeHtml(__('Subscription Id')) ?>" class="col subscription id"><?= /* @noEscape */ $_order->getNetsSubscriptionId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Payment Id')) ?>" class="col payment id"><?= /* @noEscape */ $_order->getNetsPaymentId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Frequency')) ?>" class="col frequency"><?= /* @noEscape */ $_order->getNetsSubscriptionInterval() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Expires After')) ?>" class="col expires">
+                        <?php if($_order->getNetsSubscriptionExpires() !== "all time") : ?>
+                            <?= /* @noEscape */ $_order->getNetsSubscriptionExpires()." period" ?>
+                        <?php else : ?>
+                            <?= /* @noEscape */ $_order->getNetsSubscriptionExpires() ?>
+                        <?php endif; ?>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('Amount')) ?>" class="col amount"><?= /* @noEscape */ $_order->getNetsOrderCurrency()." ".$_order->getNetsOrderAmount() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Start Date')) ?>" class="col date"><?= /* @noEscape */ $block->formatDate($_order->getCreatedDate()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('End Date')) ?>" class="col end date"><?= /* @noEscape */ $block->formatDate($_order->getNetsSubscriptionEnd()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= $block->getStatus($_order->getStatus()) ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?= $block->escapeUrl($block->getViewUrl($_order)) ?>" class="action view">
+                                <span><?= $block->escapeHtml(__('View Order')) ?></span>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()) : ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else : ?>
+    <div class="message info empty"><span><?= $block->escapeHtml($block->getEmptyOrdersMessage()) ?></span></div>
+<?php endif ?>

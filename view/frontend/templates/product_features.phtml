@@ -1,0 +1,51 @@
+<?php /** @var $block Dibs\EasyCheckout\Block\Features */ ?>
+<div class="product-view-features">
+    <h4><?php echo __("Features:") ?></h4>
+    <?php echo $block->getFeatures(); ?>
+	<div class="nets-subscription-fields" id="nets-subscription-fields">
+	<input type="radio" id="single-order" name="nets-subscription" value="One Time Order">
+  	<label for="One Time Order">One Time Order</label>
+  	<input type="radio" id="subscription-order" name="nets-subscription" value="Subscription Order">
+  	<label for="Subscription Order">Subscription Order</label><br>
+	<div class="subscription-fields" id="subscription-fields" style="display:none;">
+		<select name="intervals" id="intervals">
+			<option value="0">Select Interval</option>
+			<option value="1">Daily</option>
+			<option value="2">Weekly</option>
+			<option value="3">Monthly</option>
+			<option value="4">Quarterly</option>
+			<option value="5">6months</option>
+			<option value="6">Yearly</option>
+		</select>
+		<label>Subscription End Date : </label>
+		<input type="text" class="input-text" id="example-date" style="width: auto" name="example-date" />
+	</div>
+</div>
+
+<script>
+  require([
+    'jquery',
+    'mage/translate',
+    'mage/calendar'
+    ], function ($, $t) {
+      $('#example-date').calendar({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+		dateFormat: 'dd/mm/yyyy',
+        currentText: $t('Go Today'),
+        closeText: $t('Close'),
+        showWeek: true
+      });
+	  $('#nets-subscription-fields').click(function() {
+			$("#subscription-fields").hide();
+		if($('#subscription-order').is(':checked')) { 
+			$("#subscription-fields").show();
+		}
+	});
+
+    })
+</script>
+
+</div>
+</div>

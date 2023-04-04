@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="order_additional_info">
+            <block class="Dibs\EasyCheckout\Block\Adminhtml\Order\View\View" name="custom_view" template="order/view/view.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="order_totals">
+            <block class="Dibs\EasyCheckout\Block\Adminhtml\Sales\Totals" name="dibs_invoice_fee"/>
+        </referenceContainer>
+		    <referenceContainer name="order_totals">
+            <block class="Dibs\EasyCheckout\Block\Adminhtml\Sales\Fee" name="dibs_subscription_fee"/>
+        </referenceContainer>
+    </body>
+</page>

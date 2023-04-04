@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+  <body>
+        <referenceContainer name="page.main.title">
+            <container name="order.actions.container" htmlTag="div" htmlClass="actions-toolbar order-actions-toolbar">
+                <block class="Dibs\EasyCheckout\Block\Subscription\Info\Buttons" as="buttons" name="sales.order.info.buttons" cacheable="false"/>
+            </container>
+        </referenceContainer>
+    		<referenceContainer name="order_totals">
+    			<block class="Dibs\EasyCheckout\Block\Sales\Order\Fee" name="fee"/>
+    		</referenceContainer>   
+        <referenceContainer name="content">
+                <block class="Dibs\EasyCheckout\Block\Subscription\SubscriptionInfo" name="salescustomblock" template="Dibs_EasyCheckout::order/subscriptionInfo.phtml" />
+        </referenceContainer>
+	</body>
+ </page>
